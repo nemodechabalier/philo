@@ -6,7 +6,7 @@ SRCDIR = srcs
 OBJDIR = objs
 
 # Fichiers sources et objets
-SRC = $(SRCDIR)/philo.c $(SRCDIR)/philo_utils.c $(SRCDIR)/special_case.c $(SRCDIR)/routine.c $(SRCDIR)/end_time.c
+SRC = $(SRCDIR)/main.c $(SRCDIR)/philo_utils.c $(SRCDIR)/one_philo.c $(SRCDIR)/thread_verif.c $(SRCDIR)/routine.c $(SRCDIR)/thread_mutex_utils.c
 OBJ = $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 # Options de compilation

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 17:30:38 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 18:59:44 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:00:18 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ int	main(int ac, char **av)
 	if (data.nb_philo == 1)
 		return (for_1_philo(&data));
 	else
-		return (on_test_des_chose(&data));
-	
+		return (creat_thread_mutex(&data), 0);
 }

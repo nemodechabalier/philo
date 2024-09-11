@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 17:30:44 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 18:46:16 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:04:46 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void				init_data(int ac, char **av, t_data *data);
 int					verif_argv(int ac, char **av);
 int					for_1_philo(t_data *data);
 void				*verif_alive(void *args);
-int					on_test_des_chose(t_data *data);
+void				creat_thread_mutex(t_data *data);
 int					take_fork_pair(t_philo *philo);
 int					take_fork_not_pair(t_philo *philo);
 int					sleeping(t_philo *philo);
@@ -72,5 +72,6 @@ void				start_waiting(t_philo *philo);
 void				ft_usleep(int nb);
 int					verif_meal(t_data *data);
 void				stop_philo(t_data *data, int i, int bool);
+int					veriff_all_alive(t_philo *philo);
 
 #endif

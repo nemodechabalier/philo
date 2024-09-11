@@ -1,36 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   special_case.c                                     :+:      :+:    :+:   */
+/*   thread_verif.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:19:44 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 18:58:32 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:03:57 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*test_1_philo(void *args)
+void	init_data(int ac, char **av, t_data *data)
 {
-	t_philo	*philo;
+	int	i;
 
-	philo = (t_philo *)args;
-	printf("%d %d has taken a fork\n", 0, philo->id);
-	while (get_time_in_ms() - philo->last_eat < philo->data->time_to_die)
+	i = 0;
+	data->nb_philo = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
+	data->time_start = get_time_in_ms();
+	data->all_alive = 1;
+	if (ac == 6)
+		data->nb_of_time = ft_atoi(av[5]);
+	else
+		data->nb_of_time = -1;
+	while (i < data->nb_philo && i < 200)
 	{
+		data->philo[i].nb_philo = data->nb_philo;
+		data->philo[i].time_start = data->time_start;
+		data->philo[i].id = i + 1;
+		data->philo[i].data = data;
+		data->philo[i].bool_alive = 1;
+		data->philo[i].num_of_meal = 0;
+		data->philo[i].last_eat = data->time_start;
+		data->philo[i].time_to_sleep = data->time_to_sleep;
+		data->philo[i++].time_to_eat = data->time_to_eat;
 	}
-	printf("%ld %d died\n", get_time_in_ms() - philo->time_start, philo->id);
-	return (NULL);
 }
 
-int	for_1_philo(t_data *data)
+void	creat_mutex(t_data *data, int *i)
 {
-	pthread_create(&data->philo[0].philosophe, NULL, test_1_philo,
-		&data->philo[0]);
-	pthread_join(data->philo[0].philosophe, NULL);
-	return (0);
+	pthread_mutex_init(&data->philo[*i].lock_eat, NULL);
+	pthread_mutex_init(&data->philo[*i].right_fork, NULL);
+	pthread_mutex_init(&data->philo[*i].lock_last_eat, NULL);
+	*i += 1;
+	if (*i < data->nb_philo)
+		data->philo[*i].left_fork = &data->philo[*i - 1].right_fork;
 }
 
 void	*verif_alive(void *args)
@@ -61,7 +79,7 @@ void	*verif_alive(void *args)
 	return (NULL);
 }
 
-void	*test_philo(void *args)
+void	*routine(void *args)
 {
 	t_philo	*philo;
 
@@ -89,26 +107,20 @@ void	*test_philo(void *args)
 	return (NULL);
 }
 
-int	on_test_des_chose(t_data *data)
+void	creat_thread_mutex(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->nb_philo)
-	{
-		pthread_mutex_init(&data->philo[i].lock_eat, NULL);
-		pthread_mutex_init(&data->philo[i].right_fork, NULL);
-		pthread_mutex_init(&data->philo[i++].lock_last_eat, NULL);
-		if (i < data->nb_philo)
-			data->philo[i].left_fork = &data->philo[i - 1].right_fork;
-	}
+		creat_mutex(data, &i);
 	data->philo[0].left_fork = &data->philo[i - 1].right_fork;
 	pthread_mutex_init(&data->speak, NULL);
 	pthread_mutex_init(&data->lock_alive, NULL);
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		pthread_create(&data->philo[i].philosophe, NULL, test_philo,
+		pthread_create(&data->philo[i].philosophe, NULL, routine,
 			&data->philo[i]);
 		i++;
 	}
@@ -116,5 +128,5 @@ int	on_test_des_chose(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 		pthread_join(data->philo[i++].philosophe, NULL);
-	return (ft_destroy_mutex(data), 0);
+	return (ft_destroy_mutex(data));
 }
