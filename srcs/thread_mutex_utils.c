@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:39:24 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/12 13:36:51 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:55:29 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ void	stop_philo(t_data *data, int i, int bool)
 	else
 		printf("%ld all philo ate\n", get_time_in_ms() - data->time_start);
 	pthread_mutex_unlock(&data->speak);
-	pthread_mutex_unlock(&data->philo[i].lock_last_eat);
+	if (bool == 0)
+		pthread_mutex_unlock(&data->philo[i].lock_last_eat);
 }
