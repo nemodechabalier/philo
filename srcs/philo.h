@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 17:30:44 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 20:04:46 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:32:34 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+	pthread_mutex_t start;
 	pthread_mutex_t	speak;
 	pthread_mutex_t	lock_alive;
 	long			time_start;
@@ -73,5 +74,6 @@ void				ft_usleep(int nb);
 int					verif_meal(t_data *data);
 void				stop_philo(t_data *data, int i, int bool);
 int					veriff_all_alive(t_philo *philo);
+void				ft_set_h(t_data *data);
 
 #endif

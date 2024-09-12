@@ -6,11 +6,25 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:27:19 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 20:04:12 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/11 21:45:55 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ft_set_h(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->time_start = get_time_in_ms();
+	while (i < data->nb_philo)
+	{
+		data->philo[i].last_eat = data->time_start;
+		data->philo[i].time_start = data->time_start;
+		i++;
+	}
+}
 
 int	veriff_all_alive(t_philo *philo)
 {
@@ -36,6 +50,7 @@ void	*test_1_philo(void *args)
 
 int	for_1_philo(t_data *data)
 {
+	ft_set_h(data);
 	pthread_create(&data->philo[0].philosophe, NULL, test_1_philo,
 		&data->philo[0]);
 	pthread_join(data->philo[0].philosophe, NULL);

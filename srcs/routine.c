@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:37:29 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 20:04:08 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/11 21:02:24 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,11 @@ int	thinking(t_philo *philo)
 	if (veriff_all_alive(philo))
 	{
 		pthread_mutex_lock(&philo->data->speak);
-		printf("%ld %d is thinking\n", get_time_in_ms() - philo->time_start,
-			philo->id);
+		if (veriff_all_alive(philo))
+		{
+			printf("%ld %d is thinking\n", get_time_in_ms() - philo->time_start,
+				philo->id);
+		}
 		pthread_mutex_unlock(&philo->data->speak);
 		return (1);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   end_time.c                                         :+:      :+:    :+:   */
+/*   thread_mutex_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:39:24 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 18:59:30 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:36:51 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	ft_usleep(int nb)
 	long	time;
 
 	time = get_time_in_ms();
-	while (get_time_in_ms() - time <= nb)
+	while (get_time_in_ms() - time < nb)
 	{
+		usleep(1);
 	}
 }
 
@@ -33,6 +34,7 @@ void	ft_destroy_mutex(t_data *data)
 		pthread_mutex_destroy(&data->philo[i].right_fork);
 		pthread_mutex_destroy(&data->philo[i++].lock_last_eat);
 	}
+	pthread_mutex_destroy(&data->start);
 	pthread_mutex_destroy(&data->lock_alive);
 	pthread_mutex_destroy(&data->speak);
 }

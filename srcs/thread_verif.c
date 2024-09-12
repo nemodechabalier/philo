@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:19:44 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/11 20:03:57 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:35:36 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	init_data(int ac, char **av, t_data *data)
 	while (i < data->nb_philo && i < 200)
 	{
 		data->philo[i].nb_philo = data->nb_philo;
-		data->philo[i].time_start = data->time_start;
 		data->philo[i].id = i + 1;
 		data->philo[i].data = data;
 		data->philo[i].bool_alive = 1;
@@ -84,19 +83,16 @@ void	*routine(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
+	pthread_mutex_lock(&philo->data->start);
+	pthread_mutex_unlock(&philo->data->start);
+	thinking(philo);
 	start_waiting(philo);
 	while (1)
 	{
-		if (philo->id % 2 == 0)
-		{
-			if (take_fork_pair(philo) == 0)
-				break ;
-		}
-		else
-		{
-			if (take_fork_not_pair(philo) == 0)
-				break ;
-		}
+		if (philo->id % 2 == 0 && take_fork_pair(philo) == 0)
+			break ;
+		if (philo->id % 2 && take_fork_not_pair(philo) == 0)
+			break ;
 		if (eating(philo) == 0)
 			break ;
 		if (sleeping(philo) == 0)
@@ -117,13 +113,17 @@ void	creat_thread_mutex(t_data *data)
 	data->philo[0].left_fork = &data->philo[i - 1].right_fork;
 	pthread_mutex_init(&data->speak, NULL);
 	pthread_mutex_init(&data->lock_alive, NULL);
+	pthread_mutex_init(&data->start, NULL);
 	i = 0;
+	pthread_mutex_lock(&data->start);
 	while (i < data->nb_philo)
 	{
 		pthread_create(&data->philo[i].philosophe, NULL, routine,
 			&data->philo[i]);
 		i++;
 	}
+	ft_set_h(data);
+	pthread_mutex_unlock(&data->start);
 	verif_alive(data);
 	i = 0;
 	while (i < data->nb_philo)
