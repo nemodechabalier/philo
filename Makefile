@@ -14,14 +14,16 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 RM = rm -f
 
-# Règle par défaut
-all: animation $(NAME)
+
 
 # Création de l'exécutable
 $(NAME): $(OBJ)
 	@echo "\033[1;32mLinking objects...\033[0m"
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@echo "\033[1;32mCompilation terminée avec succès ! 🎉\033[0m"
+
+# Règle par défaut
+all: $(NAME)
 
 # Compilation des fichiers objets
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -46,14 +48,5 @@ fclean: clean
 # Recompilation complète
 re: fclean all
 
-# Animation pendant la compilation
-animation:
-	@echo "\033[1;36mCompilation en cours... \033[0m"
-	@sleep 0.5
-	@echo "\033[1;36mPatience... \033[0m"
-	@sleep 0.5
-	@echo "\033[1;36mPresque fini... \033[0m"
-	@sleep 0.5
-
 # Éviter les conflits avec des fichiers qui portent les mêmes noms que les cibles Makefile
-.PHONY: all clean fclean re animation
+.PHONY: all clean fclean re 
