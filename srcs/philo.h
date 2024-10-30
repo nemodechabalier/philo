@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 17:30:44 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/12 13:56:32 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:41:42 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void				creat_thread_mutex(t_data *data);
 void				take_fork_pair(t_philo *philo);
 void				take_fork_not_pair(t_philo *philo);
 void				sleeping(t_philo *philo);
-void				thinking(t_philo *philo);
+void				thinking(t_philo *philo, int bool);
 void				eating(t_philo *philo);
 void				ft_destroy_mutex(t_data *data);
 void				start_waiting(t_philo *philo);

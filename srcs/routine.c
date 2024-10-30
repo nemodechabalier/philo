@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:37:29 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/12 13:45:25 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:08:31 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	sleeping(t_philo *philo)
 		ft_usleep(philo->time_to_sleep);
 }
 
-void	thinking(t_philo *philo)
+void	thinking(t_philo *philo, int bool)
 {
 	pthread_mutex_lock(&philo->data->speak);
 	if (veriff_all_alive(philo))
@@ -83,4 +83,9 @@ void	thinking(t_philo *philo)
 			philo->id);
 	}
 	pthread_mutex_unlock(&philo->data->speak);
+	if (bool && philo->nb_philo % 2 && philo->time_to_eat >= 2
+		* philo->time_to_sleep)
+		ft_usleep(philo->time_to_eat);
+	else if (bool && philo->nb_philo % 2)
+		ft_usleep(philo->time_to_eat / 3);
 }

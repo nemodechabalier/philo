@@ -6,7 +6,7 @@
 /*   By: nde-chab <nde-chab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:19:44 by nde-chab          #+#    #+#             */
-/*   Updated: 2024/09/12 13:48:49 by nde-chab         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:42:00 by nde-chab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	*routine(void *args)
 	philo = (t_philo *)args;
 	pthread_mutex_lock(&philo->data->start);
 	pthread_mutex_unlock(&philo->data->start);
-	thinking(philo);
+	thinking(philo, 0);
 	start_waiting(philo);
 	while (veriff_all_alive(philo))
 	{
@@ -96,7 +96,7 @@ void	*routine(void *args)
 			take_fork_not_pair(philo);
 		eating(philo);
 		sleeping(philo);
-		thinking(philo);
+		thinking(philo, 1);
 	}
 	return (NULL);
 }
